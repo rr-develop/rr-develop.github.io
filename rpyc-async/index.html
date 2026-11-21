@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>rpyc-async — asyncio-native fork of RPyC</title>
+  <meta name="description" content="rpyc-async is an asyncio-native fork of RPyC for remote procedure calls with async/await services, clients and callbacks. Import name rpyc_async. MIT licence.">
+  <link rel="canonical" href="https://rr-develop.github.io/rpyc-async/">
+</head>
+<body>
+  <main>
+    <p><a href="../">Roman Rodionov — open-source Python projects</a></p>
+    <h1>rpyc-async</h1>
+    <p>An asyncio-native fork of <a href="https://github.com/tomerfiliba-org/rpyc">RPyC</a> (Remote Python Call), a library for symmetric remote procedure calls between Python processes. The fork adds native <code>async</code>/<code>await</code> support: async services, async clients and bidirectional async callbacks driven by a persistent event loop.</p>
+
+    <h2>Relationship to upstream RPyC</h2>
+    <p>rpyc-async is forked from RPyC 6.0.1 and versioned independently (current release 1.1.0). It is a separate distribution, not a drop-in replacement for classic synchronous RPyC: the API centres on <code>async_connect()</code> and <code>AsyncioServer</code>, and both peers must run rpyc-async. The distribution name is <code>rpyc-async</code>; the import name is <code>rpyc_async</code>. Both can be installed in the same environment as upstream <code>rpyc</code>.</p>
+
+    <h2>Installation</h2>
+    <pre><code>pip install rpyc-async</code></pre>
+    <p>Requires Python 3.10 or later. The PyPI classifiers list Linux and POSIX as the operating systems.</p>
+
+    <h2>Links</h2>
+    <ul>
+      <li>Source code and README: <a href="https://github.com/rr-develop/rpyc_async">github.com/rr-develop/rpyc_async</a></li>
+      <li>PyPI package: <a href="https://pypi.org/project/rpyc-async/">pypi.org/project/rpyc-async</a></li>
+      <li>Upstream RPyC: <a href="https://github.com/tomerfiliba-org/rpyc">github.com/tomerfiliba-org/rpyc</a></li>
+    </ul>
+
+    <h2>Licence</h2>
+    <p>MIT. Upstream RPyC is also MIT-licensed; see the LICENSE file in the repository for the copyright notices.</p>
+  </main>
+</body>
+</html>
