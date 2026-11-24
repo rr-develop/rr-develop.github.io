@@ -38,8 +38,8 @@
     <ul>
       <li><strong>Callbacks in both directions.</strong> The server can call back into an idle client and get an answer.</li>
       <li><strong>async and await on both sides.</strong> Many calls can wait at once on one connection, without a thread for each.</li>
-      <li><strong>Quiet when idle.</strong> An idle connection is not checked on a timer.</li>
-      <li><strong>Remote objects released when you let go.</strong> Releases are batched and confirmed by the server. An end-to-end test of this is not yet in the project.</li>
+      <li><strong>Quiet when idle.</strong> On the asyncio API, an idle connection wakes nothing up.</li>
+      <li><strong>Remote objects released when you let go.</strong> On the asyncio API, the server releases a remote object when your last reference to it goes away. Releases are batched and confirmed by the server.</li>
     </ul>
     <p><a href="rpyc-async/">The full list, with a comparison to upstream RPyC</a>.</p>
 

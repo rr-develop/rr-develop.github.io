@@ -65,21 +65,20 @@ result = conn.root.double(21)
 result = await conn.root.double(21)</code></pre>
       </li>
       <li>
-        <strong>An idle connection does nothing.</strong>
-        No timer wakes up every 0.1 s to check it. Upstream's thread-pool server checks idle connections ten times a second.
+        <strong>On the asyncio API, an idle connection does nothing.</strong>
+        No timer wakes up to check it. Upstream's thread-pool server checks idle connections ten times a second.
       </li>
       <li>
         <strong>Remote objects are released when you let go of them.</strong>
-        When you drop your last reference to a remote object, the server is told to release it. Releases are sent in batches, and the server confirms them.
-        An end-to-end test of this release is not yet in the project, so treat it as the intended behaviour.
+        On the asyncio API, when you drop your last reference to a remote object, the server is told to release it. Releases are sent in batches, and the server confirms them.
       </li>
       <li>
         <strong>Objects keep their ids while they exist.</strong>
         Each object gets an id for the connection that is not reused while the object lives. Upstream uses Python's memory address, which can be reused once an object is freed.
       </li>
       <li>
-        <strong>Closing and blocking calls never freeze your program.</strong>
-        <code>await conn.aclose()</code> closes the connection without blocking. Calling a blocking function from inside async code raises an error instead of hanging.
+        <strong>Closing does not block, and blocking calls are refused inside async code.</strong>
+        <code>await conn.aclose()</code> closes the connection without blocking the event loop. Calling a blocking function from inside async code raises an error instead of hanging.
         <pre><code># inside async code
 rpyc.connect("localhost", 18861)   # RuntimeError: use async_connect() with await</code></pre>
       </li>
@@ -123,11 +122,10 @@ asyncio.run(main())</code></pre>
       <tbody>
         <tr><td>Calls</td><td>blocking</td><td><code>await</code>, or blocking as before</td></tr>
         <tr><td>Server calls back into an idle client</td><td>waits for the client to be busy</td><td>answered straight away</td></tr>
-        <tr><td>Idle connection</td><td>checked ten times a second</td><td>not checked, nothing wakes up</td></tr>
+        <tr><td>Idle connection</td><td>checked ten times a second</td><td>nothing wakes up (asyncio API)</td></tr>
         <tr><td>Closing a connection</td><td>blocks</td><td><code>await conn.aclose()</code></td></tr>
       </tbody>
     </table>
-    <p>No speed comparison with upstream is published yet.</p>
 
     <h2>Relationship to upstream RPyC</h2>
     <p>rpyc-async is forked from RPyC 6.0.1 and versioned independently (current release 1.1.0). It is a separate distribution, not a drop-in replacement for classic synchronous RPyC: the API centres on <code>async_connect()</code> and <code>AsyncioServer</code>, and both peers must run rpyc-async. Both can be installed in the same environment as upstream <code>rpyc</code>.</p>
