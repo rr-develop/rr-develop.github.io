@@ -3,32 +3,106 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Roman Rodionov — open-source Python projects</title>
-  <meta name="description" content="Open-source Python projects by Roman Rodionov: rpyc-async, an asyncio-native fork of RPyC, and deep-worker, an AI agent framework driven from a terminal.">
+  <title>rpyc async: asyncio RPC for Python · Roman Rodionov</title>
+  <meta name="description" content="rpyc async (import name rpyc_async): asyncio RPC for Python. await calls between processes, with callbacks that work in both directions. pip install rpyc-async. MIT.">
   <link rel="canonical" href="https://rr-develop.github.io/">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="Roman Rodionov">
+  <meta property="og:title" content="rpyc async: asyncio RPC for Python">
+  <meta property="og:description" content="rpyc async (rpyc_async): await calls between Python processes, with callbacks in both directions. Also deep-worker.">
+  <meta property="og:url" content="https://rr-develop.github.io/">
+  <meta property="og:image" content="https://rr-develop.github.io/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://rr-develop.github.io/og-image.png">
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Roman Rodionov",
+    "url": "https://rr-develop.github.io/",
+    "sameAs": ["https://github.com/rr-develop"]
+  }
+  </script>
 </head>
 <body>
   <main>
-    <h1>Roman Rodionov — open-source Python projects</h1>
-    <p>This page lists the open-source Python projects published by Roman Rodionov on GitHub and PyPI.</p>
+    <h1>Roman Rodionov</h1>
+    <p>I build open-source Python tools for asynchronous and agent-driven work.</p>
 
-    <h2><a href="rpyc-async/">rpyc-async</a></h2>
-    <p>An asyncio-native fork of RPyC for reliable and efficient asynchronous inter-process calls. Forked from RPyC 6.0.1; MIT licence; Python 3.10 and later.</p>
+    <h2 id="rpyc-async">rpyc async: asyncio RPC for Python</h2>
+    <p><a href="rpyc-async/">rpyc-async</a> (import name <code>rpyc_async</code>) is an asyncio-native fork of <a href="https://github.com/tomerfiliba-org/rpyc">RPyC</a>, the Python library for calling objects in other processes. You call remote methods with <code>await</code>. It is a young project: the repository was created in July 2026, it is in active development, and it is forked from RPyC 6.0.1. It already runs inside the agent processes of <a href="deep-worker/">deep-worker</a>.</p>
+
+    <h3>What it gives you</h3>
     <ul>
-      <li>Project page: <a href="rpyc-async/">rpyc-async on this site</a></li>
-      <li>Source: <a href="https://github.com/rr-develop/rpyc_async">github.com/rr-develop/rpyc_async</a></li>
+      <li><strong>Callbacks in both directions.</strong> The server can call back into an idle client and get an answer.</li>
+      <li><strong>async and await on both sides.</strong> Many calls can wait at once on one connection, without a thread for each.</li>
+      <li><strong>Quiet when idle.</strong> An idle connection is not checked on a timer.</li>
+      <li><strong>Remote objects released when you let go.</strong> Releases are batched and confirmed by the server. An end-to-end test of this is not yet in the project.</li>
+    </ul>
+    <p><a href="rpyc-async/">The full list, with a comparison to upstream RPyC</a>.</p>
+
+    <h3>Quick start</h3>
+    <pre><code>pip install rpyc-async</code></pre>
+    <p>Server:</p>
+    <pre><code>import asyncio
+from rpyc_async import AsyncioServer, Service
+
+class MyService(Service):
+    async def exposed_double(self, x):
+        await asyncio.sleep(0.1)
+        return x * 2
+
+async def main():
+    server = AsyncioServer(MyService, port=18871)
+    await server.start()
+    await asyncio.sleep(8)
+
+asyncio.run(main())</code></pre>
+    <p>Client, run while the server is up. It prints <code>42</code>:</p>
+    <pre><code>import asyncio
+import rpyc_async as rpyc
+
+async def main():
+    conn = await rpyc.async_connect("localhost", 18871)
+    try:
+        print(await conn.root.double(21))
+    finally:
+        await conn.aclose()
+
+asyncio.run(main())</code></pre>
+
+    <h3>Links</h3>
+    <ul>
+      <li>GitHub: <a href="https://github.com/rr-develop/rpyc_async">github.com/rr-develop/rpyc_async</a></li>
       <li>PyPI: <a href="https://pypi.org/project/rpyc-async/">pypi.org/project/rpyc-async</a></li>
+      <li>Project page: <a href="rpyc-async/">rr-develop.github.io/rpyc-async</a></li>
     </ul>
+    <p class="meta">Python 3.10+ · release 1.1.0 · based on RPyC 6.0.1.
+      License: MIT. Copyright (c) 2005-2013 Tomer Filiba and patch submitters (upstream RPyC); Copyright (c) 2026 Roman Rodionov (asyncio-native fork and async support).</p>
 
-    <h2><a href="deep-worker/">deep-worker</a></h2>
-    <p>An AI agent framework for running LLM agents as local background processes, driven interactively through a terminal CLI (<code>dwcli</code>). MIT licence; Python 3.11 and later.</p>
+    <h2>deep-worker</h2>
+    <p>Runs LLM agents as local background processes, driven from the <code>dwcli</code> terminal client.</p>
+    <p><code>pip install deep-worker</code></p>
+    <p class="meta">Python 3.11+ · MIT · Beta</p>
+    <p>
+      <a href="deep-worker/">Project page</a> ·
+      <a href="https://github.com/rr-develop/deep-worker">GitHub</a> ·
+      <a href="https://pypi.org/project/deep-worker/">PyPI</a>
+    </p>
+
+    <h2>Author</h2>
     <ul>
-      <li>Project page: <a href="deep-worker/">deep-worker on this site</a></li>
-      <li>Source: <a href="https://github.com/rr-develop/deep-worker">github.com/rr-develop/deep-worker</a></li>
-      <li>PyPI: <a href="https://pypi.org/project/deep-worker/">pypi.org/project/deep-worker</a></li>
+      <li>GitHub: <a href="https://github.com/rr-develop">github.com/rr-develop</a></li>
+      <!-- LinkedIn: hidden until Roman provides the URL. When he does, add:
+           <li>LinkedIn: <a href="URL">linkedin.com/in/...</a></li>
+           and add the same URL to "sameAs" in the Person JSON-LD above. -->
     </ul>
 
-    <p>Author: Roman Rodionov. Both projects are maintained in public repositories linked above.</p>
+    <footer>
+      Both projects are MIT-licensed. Last updated 2026-11-24.
+    </footer>
   </main>
 </body>
 </html>

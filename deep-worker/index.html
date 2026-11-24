@@ -6,13 +6,24 @@
   <title>deep-worker — AI agents as local background processes</title>
   <meta name="description" content="deep-worker runs LLM agents as local background processes and drives them interactively from a terminal CLI (dwcli). Python 3.11 and later. MIT licence.">
   <link rel="canonical" href="https://rr-develop.github.io/deep-worker/">
+  <link rel="icon" href="../favicon.svg" type="image/svg+xml">
+  <link rel="stylesheet" href="../style.css">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="deep-worker — AI agents as local background processes">
+  <meta property="og:description" content="Run LLM agents as local background processes and drive them from a terminal CLI (dwcli).">
+  <meta property="og:url" content="https://rr-develop.github.io/deep-worker/">
+  <meta property="og:site_name" content="Roman Rodionov">
+  <meta property="og:image" content="https://rr-develop.github.io/og-image.png">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:image" content="https://rr-develop.github.io/og-image.png">
 </head>
 <body>
   <main>
-    <p><a href="../">Roman Rodionov — open-source Python projects</a></p>
+    <p class="back"><a href="../">Roman Rodionov</a> · open-source Python tools</p>
     <h1>deep-worker</h1>
     <p>An AI agent framework for running LLM agents as local background processes and interacting with them through a terminal CLI. Agents run as daemon processes, persist conversation history, and are driven interactively with <code>dwcli</code>.</p>
-    <p>deep-worker is a fork and continuation of <a href="https://github.com/langchain-ai/deepagents">deepagents-cli</a>.</p>
+    <pre><code>pip install deep-worker</code></pre>
+    <p>Python 3.11 or later · MIT · development status: Beta. The repository's README describes running from a source checkout; its quick start is the reference for the current setup.</p>
 
     <h2>Components</h2>
     <ul>
@@ -31,9 +42,7 @@
       <li>Automatic context summarization and a delta checkpointer.</li>
     </ul>
 
-    <h2>Installation</h2>
-    <pre><code>pip install deep-worker</code></pre>
-    <p>The PyPI package lists Python 3.11 or later and is an early release (development status: Beta). The repository's README describes running from a source checkout; its quick start is the reference for the current setup.</p>
+    <p>deep-worker is a fork and continuation of <a href="https://github.com/langchain-ai/deepagents">deepagents-cli</a>.</p>
 
     <h2>Links</h2>
     <ul>
@@ -43,6 +52,10 @@
 
     <h2>Licence</h2>
     <p>MIT. Upstream portions are copyright LangChain, Inc.; the repository's LICENSE file gives the details.</p>
+
+    <footer>
+      MIT licence · Last updated 2026-11-24 · <a href="../">Roman Rodionov</a>
+    </footer>
   </main>
 </body>
 </html>
